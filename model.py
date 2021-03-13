@@ -10,6 +10,8 @@ from dbnet.dbnet_infer import DBNET
 import time
 import traceback
 
+
+
 class  OcrHandle(object):
     def __init__(self):
         self.text_handle = DBNET(model_path)
@@ -18,7 +20,7 @@ class  OcrHandle(object):
             self.angle_handle = AngleNetHandle(angle_net_path)
 
 
-    def crnnRecWithBox(self,im, boxes_list,score_list):
+    def crnnRecWithBox(self, im, boxes_list, score_list):
         """
         crnn模型，ocr识别
         @@model,
@@ -48,12 +50,10 @@ class  OcrHandle(object):
             tmp_box = copy.deepcopy(box)
             partImg_array = get_rotate_crop_image(im, tmp_box.astype(np.float32))
 
-
             partImg = Image.fromarray(partImg_array).convert("RGB")
 
             if angle_detect and angle_res:
                 partImg = partImg.rotate(180)
-
 
             if not is_rgb:
                 partImg = partImg.convert('L')
@@ -74,12 +74,13 @@ class  OcrHandle(object):
         return results
 
 
-    def text_predict(self,img,short_size):
+    def text_predict(self, img, short_size):
         boxes_list, score_list = self.text_handle.process(np.asarray(img).astype(np.uint8),short_size=short_size)
         result = self.crnnRecWithBox(np.array(img), boxes_list,score_list)
-
         return result
 
 
 if __name__ == "__main__":
     pass
+
+

@@ -83,13 +83,10 @@ class CRNNHandle:
 
         # preds = softmax(preds)
 
-
         preds = np.argmax(preds,axis=1)
-
         preds = preds.reshape(-1)
 
         sim_pred = converter.decode(preds, length, raw=False)
-
         return sim_pred
 
 
